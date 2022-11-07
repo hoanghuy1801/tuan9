@@ -1,0 +1,37 @@
+resilience4j.retry:
+    instances:
+        passenger:
+            registerHealthIndicator: true
+            maxAttempts: 1
+            waitDuration: 10s
+
+
+resilience4j.circuitbreaker:
+  instances:
+    passenger:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      slidingWindowType: COUNT_BASED
+      permittedNumberOfCallsInHalfOpenState: 3
+      failureRateThreshold: 70
+      #minimumNumberOfCalls: 5
+      waitDurationInOpenState: 5s
+      slowCallRateThreshold: 50
+      slowCallDurationThreshold: 2000
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      
+resilience4j.ratelimiter:
+  instances:
+    passenger:
+      limitRefreshPeriod: 24s
+      limitForPeriod: 5
+      timeoutDuration: 20s
+      registerHealthIndicator: true
+
+
+management:
+  endpoint:
+    health:
+      show-details: always         #To show all details in /health endpoint.
+
+management.health.circuitbreakers.enabled: true
